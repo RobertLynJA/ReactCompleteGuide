@@ -22,6 +22,19 @@ function Expenses(props) {
     );
   };
 
+  let expensesContent = <p>No expenses found.</p>;
+
+  if (filteredList.length > 0) {
+    expensesContent = filteredList.map((expense) => (
+      <ExpenseItem
+        key={expense.id}
+        title={expense.title}
+        amount={expense.amount}
+        date={expense.date}
+      />
+    ));
+  }
+
   return (
     <div>
       <ExpensesFilter
@@ -29,18 +42,7 @@ function Expenses(props) {
         onChangeFilter={onChangeFilterHandler}
       />
       <Card className="expenses">
-        {filteredList.length === 0 ? (
-          <p>No expenses found.</p>
-        ) : (
-          filteredList.map((expense) => (
-            <ExpenseItem
-              key={expense.id}
-              title={expense.title}
-              amount={expense.amount}
-              date={expense.date}
-            />
-          ))
-        )}
+        {expensesContent}
       </Card>
     </div>
   );
