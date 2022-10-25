@@ -6,11 +6,13 @@ import { useState } from "react";
 
 function Expenses(props) {
   const [filteredYear, setFilteredYear] = useState("2020");
+  const [filteredList, setFilteredList] = 
+    useState(props.expenses.filter(expense => expense.date.getFullYear().toString() === filteredYear));
 
   const onChangeFilterHandler = (selectedYear) => {
     setFilteredYear(selectedYear);
 
-    console.log(selectedYear);
+    setFilteredList(props.expenses.filter(expense => expense.date.getFullYear().toString() === selectedYear));
   };
 
   return (
@@ -20,7 +22,7 @@ function Expenses(props) {
         onChangeFilter={onChangeFilterHandler}
       />
       <Card className="expenses">
-        {props.expenses.map((expense) => (
+        {filteredList.map((expense) => (
           <ExpenseItem
             key={expense.id}
             title={expense.title}
