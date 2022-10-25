@@ -7,21 +7,14 @@ import ExpensesChart from "./ExpensesChart";
 
 function Expenses(props) {
   const [filteredYear, setFilteredYear] = useState("2020");
-  const [filteredList, setFilteredList] = useState(
-    props.expenses.filter(
-      (expense) => expense.date.getFullYear().toString() === filteredYear
-    )
-  );
 
   const onChangeFilterHandler = (selectedYear) => {
     setFilteredYear(selectedYear);
-
-    setFilteredList(
-      props.expenses.filter(
-        (expense) => expense.date.getFullYear().toString() === selectedYear
-      )
-    );
   };
+
+  const filteredList = props.expenses.filter(
+    (expense) => expense.date.getFullYear().toString() === filteredYear
+  );
 
   return (
     <div>
