@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from 'react';
 
-import MoviesList from "./components/MoviesList";
-import "./App.css";
+import MoviesList from './components/MoviesList';
+import AddMovie from './components/AddMovie';
+import './App.css';
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -12,11 +13,9 @@ function App() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch("https://swapi.dev/api/films/");
-      //response = await fetch("https://swapi.dev/api/film/"); // This will throw an error
-      
+      const response = await fetch('https://swapi.dev/api/films/');
       if (!response.ok) {
-        throw new Error("Something went wrong!");
+        throw new Error('Something went wrong!');
       }
 
       const data = await response.json();
@@ -25,11 +24,10 @@ function App() {
         return {
           id: movieData.episode_id,
           title: movieData.title,
-          releaseDate: movieData.release_date,
           openingText: movieData.opening_crawl,
+          releaseDate: movieData.release_date,
         };
       });
-      
       setMovies(transformedMovies);
     } catch (error) {
       setError(error.message);
@@ -41,7 +39,11 @@ function App() {
     fetchMoviesHandler();
   }, [fetchMoviesHandler]);
 
-  let content = <p>Found no movies!</p>;
+  function addMovieHandler(movie) {
+    console.log(movie);
+  }
+
+  let content = <p>Found no movies.</p>;
 
   if (movies.length > 0) {
     content = <MoviesList movies={movies} />;
@@ -58,11 +60,12 @@ function App() {
   return (
     <React.Fragment>
       <section>
-        <button onClick={fetchMoviesHandler}>Fetch Movies</button>
+        <AddMovie onAddMovie={addMovieHandler} />
       </section>
       <section>
-        {content}
+        <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
+      <section>{content}</section>
     </React.Fragment>
   );
 }
