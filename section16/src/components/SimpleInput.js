@@ -1,10 +1,11 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 const SimpleInput = (props) => {
   const [enteredName, setEnteredName] = useState('');
-  const nameInputRef = useRef();
-  const [enteredNameIsValid, setEnteredNameIsValid] = useState(false);
   const [enteredNameTouched, setEnteredNameTouched] = useState(false);
+
+  const enteredNameIsValid = enteredName.trim() !== '';
+  const nameInputIsvalid = !enteredNameIsValid && enteredNameTouched;
 
   const nameInputChangeHandler = (event) => {
     setEnteredName(event.target.value);
@@ -12,13 +13,6 @@ const SimpleInput = (props) => {
 
   const nameInputBlurHandler = (event) => {
     setEnteredNameTouched(true);
-
-    if (enteredName.trim() === '') {
-      console.log("here!");
-      setEnteredNameIsValid(false);
-    } else {
-      setEnteredNameIsValid(true);
-    }
   };
 
   const formSubmissionHandler = event => {
@@ -26,19 +20,15 @@ const SimpleInput = (props) => {
 
     setEnteredNameTouched(true);
 
-    if (enteredName.trim() === '') {
-      setEnteredNameIsValid(false);
-      console.log("here2!");
+    if (!enteredNameIsValid) {
       return;
     }
 
-    setEnteredNameIsValid(true);
-
-    console.log(nameInputRef.current.value);
     console.log(enteredName);
-  };
 
-  const nameInputIsvalid = !enteredNameIsValid && enteredNameTouched;
+    setEnteredName('');
+    setEnteredNameTouched(false);
+  };
 
   const nameInputClasses = nameInputIsvalid ? 'form-control invalid' : 'form-control';
 
@@ -46,7 +36,7 @@ const SimpleInput = (props) => {
     <form onSubmit={formSubmissionHandler}>
       <div className={nameInputClasses}>
         <label htmlFor="name">Your Name</label>
-        <input type="text" id="name" onChange={nameInputChangeHandler} onBlur={nameInputBlurHandler} ref={nameInputRef} />
+        <input type="text" id="name" onChange={nameInputChangeHandler} onBlur={nameInputBlurHandler} value={enteredName} />
       </div>
       {nameInputIsvalid && <p className="error-text">Name must not be empty</p>}
       <div className="form-actions">
