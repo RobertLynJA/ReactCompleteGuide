@@ -1,4 +1,3 @@
-import { useState } from "react";
 import useInput from "../hooks/use-input";
 
 const SimpleInput = (props) => {
@@ -11,11 +10,14 @@ const SimpleInput = (props) => {
     reset: resetNameInput
   } = useInput(value => value.trim() !== '');
 
-  const [enteredEmail, setEnteredEmail] = useState("");
-  const [enteredEmailTouched, setEnteredEmailTouched] = useState(false);
-
-  const enteredEmailIsValid = enteredEmail.indexOf("@") !== -1;
-  const emailInputIsvalid = !enteredEmailIsValid && enteredEmailTouched;
+  const {
+    value: enteredEmail,
+    isValid: enteredEmailIsValid,
+    hasError: emailInputHasError,
+    valueChangeHandler: emailInputChangeHandler,
+    valueBlurHandler: emailInputBlurHandler,
+    reset: resetEmailInput
+  } = useInput(value => value.indexOf("@") !== -1);
 
   let formIsValid = false;
 
@@ -23,18 +25,8 @@ const SimpleInput = (props) => {
     formIsValid = true;
   }
 
-  const emailInputChangeHandler = (event) => {
-    setEnteredEmail(event.target.value);
-  };
-
-  const emailInputBlurHandler = (event) => {
-    setEnteredEmailTouched(true);
-  };
-
   const formSubmissionHandler = (event) => {
     event.preventDefault();
-
-    setEnteredEmailTouched(true);
 
     if (!formIsValid) {
       return;
@@ -43,15 +35,13 @@ const SimpleInput = (props) => {
     console.log(enteredName + " " + enteredEmail);
 
     resetNameInput();
-
-    setEnteredEmail("");
-    setEnteredEmailTouched(false);
+    resetEmailInput();
   };
 
   const nameInputClasses = nameInputHasError
     ? "form-control invalid"
     : "form-control";
-  const emailInputClasses = emailInputIsvalid
+  const emailInputClasses = emailInputHasError
     ? "form-control invalid"
     : "form-control";
 
@@ -78,7 +68,7 @@ const SimpleInput = (props) => {
           value={enteredEmail}
         />
       </div>
-      {emailInputIsvalid && <p className="error-text">Email is not valid</p>}
+      {emailInputHasError && <p className="error-text">Email is not valid</p>}
       <div className="form-actions">
         <button disabled={!formIsValid}>Submit</button>
       </div>
