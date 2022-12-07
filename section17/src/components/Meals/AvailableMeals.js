@@ -1,17 +1,19 @@
-import { useEffect, useState } from 'react';
-import Card from '../UI/Card';
-import MealItem from './MealItem/MealItem';
-import classes from './AvailableMeals.module.css';
+import { useEffect, useState } from "react";
+import Card from "../UI/Card";
+import MealItem from "./MealItem/MealItem";
+import classes from "./AvailableMeals.module.css";
 
 //https://prefab-rampart-351922-default-rtdb.firebaseio.com/meals.json
 
 const AvailableMeals = () => {
-
   const [meals, setMeals] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchMeals = async () => {
-      const response = await fetch('https://prefab-rampart-351922-default-rtdb.firebaseio.com/meals.json')
+      const response = await fetch(
+        "https://prefab-rampart-351922-default-rtdb.firebaseio.com/meals.json"
+      );
       const responseData = await response.json();
 
       const loadedMeals = [];
@@ -21,15 +23,24 @@ const AvailableMeals = () => {
           id: key,
           name: responseData[key].name,
           description: responseData[key].description,
-          price: responseData[key].price
-        })
+          price: responseData[key].price,
+        });
       }
 
       setMeals(loadedMeals);
+      setIsLoading(false);
     };
 
     fetchMeals();
   }, []);
+
+  if (isLoading) {
+    return (
+      <section className={classes.mealsLoading}>
+        <p>Loading...</p>
+      </section>
+    );
+  }
 
   const mealsList = meals.map((meal) => (
     <MealItem
