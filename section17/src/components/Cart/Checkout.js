@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import classes from "./Checkout.module.css";
 
 const isEmpty = (value) => value.trim() === "";
-const isFiveChars = (value) => value.trim() === 5;
+const isFiveChars = (value) => value.trim().length === 5;
 
 const Checkout = (props) => {
   const [formInputsValidity, setFormInputsValidity] = useState({
@@ -35,7 +35,7 @@ const Checkout = (props) => {
       name: enteredNameIsValid,
       street: enteredStreetIsValid,
       postalCode: enteredPostalCodeIsValid,
-      city: enteredCityIsValid
+      city: enteredCityIsValid,
     });
 
     const formIsValid =
@@ -49,14 +49,20 @@ const Checkout = (props) => {
     }
 
     //Submit
-    
+    props.onConfirm({
+      name: enteredName,
+      street: enteredStreet,
+      city: enteredCity,
+      postalCode: enteredPostalCode,
+    });
   };
 
-  const inputClasses = inputValid => `${classes.control} ${inputValid ? '' : classes.invalid}`
+  const inputClasses = (inputValid) =>
+    `${classes.control} ${inputValid ? "" : classes.invalid}`;
 
   return (
     <form className={classes.form} onSubmit={confirmHandler}>
-      <div className={inputClasses(formInputsValidity.name)} >
+      <div className={inputClasses(formInputsValidity.name)}>
         <label htmlFor="name">Your Name</label>
         <input type="text" id="name" ref={nameInputRef} />
         {!formInputsValidity.name && <p>Please enter a valid name</p>}
@@ -69,7 +75,9 @@ const Checkout = (props) => {
       <div className={inputClasses(formInputsValidity.postalCode)}>
         <label htmlFor="postal">Postal Code</label>
         <input type="text" id="postal" ref={postalCodeInputRef} />
-        {!formInputsValidity.postalCode && <p>Please enter a valid postal code</p>}
+        {!formInputsValidity.postalCode && (
+          <p>Please enter a valid postal code</p>
+        )}
       </div>
       <div className={inputClasses(formInputsValidity.city)}>
         <label htmlFor="city">City</label>
