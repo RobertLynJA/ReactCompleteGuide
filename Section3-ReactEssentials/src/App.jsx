@@ -1,16 +1,7 @@
 import componentsImg from './assets/components.png';
 import { CORE_CONCEPTS } from './data.js';
 import Header from './Components/Header.jsx';
-
-function CoreConcept({image, title, description}) {
-  return (
-    <li>
-      <img src={image} alt={title} />
-      <h3>{title}</h3>
-      <p>{description}</p>
-    </li>
-  );
-}
+import CoreConcept from './Components/CoreConcept.jsx';
 
 function App() {
   return (
