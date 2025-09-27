@@ -6,8 +6,8 @@ import TabButton from './Components/TabButton.jsx';
 
 function App() {
 
-  function handleClick() {
-    console.log('Clicked');
+  function handleClick(selectedTab) {
+    console.log(`Clicked - ${selectedTab}`);
   }
 
   return (
@@ -26,10 +26,10 @@ function App() {
         <section id="examples">
           <h2>Examples</h2>
           <menu>
-            <TabButton onClick={handleClick}>Components</TabButton>
-            <TabButton onClick={handleClick}>JSX</TabButton>
-            <TabButton onClick={handleClick}>Props</TabButton>
-            <TabButton onClick={handleClick}>State</TabButton>
+            <TabButton onClick={() => handleClick('components')}>Components</TabButton>
+            <TabButton onClick={() => handleClick('jsx')}>JSX</TabButton>
+            <TabButton onClick={() => handleClick('props')}>Props</TabButton>
+            <TabButton onClick={() => handleClick('state')}>State</TabButton>
           </menu>
         </section>
         Dynamic Content
