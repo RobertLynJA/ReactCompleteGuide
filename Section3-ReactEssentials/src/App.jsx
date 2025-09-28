@@ -8,7 +8,7 @@ import { EXAMPLES } from './data.js';
 
 function App() {
 
-  const [activeTab, setActiveTab] = useState('components');
+  const [activeTab, setActiveTab] = useState();
 
   function handleClick(selectedTab) {
     setActiveTab(selectedTab);
@@ -36,15 +36,19 @@ function App() {
             <TabButton onClick={() => handleClick('state')}>State</TabButton>
           </menu>
         </section>
-        <div id="tab-content">
-          <h3>{EXAMPLES[activeTab].title}</h3>
-          <p>{EXAMPLES[activeTab].description}</p>
-          <pre>
-            <code>
-              {EXAMPLES[activeTab].code}
-            </code>
-          </pre>
-        </div>
+        {!activeTab ? 
+          (<p>Please select a tab!</p>)
+          :
+          (<div id="tab-content">
+            <h3>{EXAMPLES[activeTab].title}</h3>
+            <p>{EXAMPLES[activeTab].description}</p>
+            <pre>
+              <code>
+                {EXAMPLES[activeTab].code}
+              </code>
+            </pre>
+          </div>)
+        }
       </main>
     </div>
   );
