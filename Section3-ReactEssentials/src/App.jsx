@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import componentsImg from './assets/components.png';
 import { CORE_CONCEPTS } from './data.js';
 import Header from './Components/Header/Header.jsx';
@@ -6,8 +7,10 @@ import TabButton from './Components/TabButton.jsx';
 
 function App() {
 
+  const [activeTab, setActiveTab] = useState('Please select a tab');
+
   function handleClick(selectedTab) {
-    console.log(`Clicked - ${selectedTab}`);
+    setActiveTab(selectedTab);
   }
 
   return (
@@ -32,7 +35,7 @@ function App() {
             <TabButton onClick={() => handleClick('state')}>State</TabButton>
           </menu>
         </section>
-        Dynamic Content
+        {activeTab}
       </main>
     </div>
   );
