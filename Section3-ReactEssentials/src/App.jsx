@@ -4,10 +4,11 @@ import { CORE_CONCEPTS } from './data.js';
 import Header from './Components/Header/Header.jsx';
 import CoreConcept from './Components/CoreConcept.jsx';
 import TabButton from './Components/TabButton.jsx';
+import { EXAMPLES } from './data.js';
 
 function App() {
 
-  const [activeTab, setActiveTab] = useState('Please select a tab');
+  const [activeTab, setActiveTab] = useState('components');
 
   function handleClick(selectedTab) {
     setActiveTab(selectedTab);
@@ -35,7 +36,15 @@ function App() {
             <TabButton onClick={() => handleClick('state')}>State</TabButton>
           </menu>
         </section>
-        {activeTab}
+        <div id="tab-content">
+          <h3>{EXAMPLES[activeTab].title}</h3>
+          <p>{EXAMPLES[activeTab].description}</p>
+          <pre>
+            <code>
+              {EXAMPLES[activeTab].code}
+            </code>
+          </pre>
+        </div>
       </main>
     </div>
   );
