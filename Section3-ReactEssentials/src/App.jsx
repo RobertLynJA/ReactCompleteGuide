@@ -36,10 +36,9 @@ function App() {
             <TabButton onClick={() => handleClick('state')}>State</TabButton>
           </menu>
         </section>
-        {!activeTab ? 
-          (<p>Please select a tab!</p>)
-          :
-          (<div id="tab-content">
+        {!activeTab && <p>Please select a tab!</p>}
+        {activeTab && (
+          <div id="tab-content">
             <h3>{EXAMPLES[activeTab].title}</h3>
             <p>{EXAMPLES[activeTab].description}</p>
             <pre>
@@ -47,8 +46,8 @@ function App() {
                 {EXAMPLES[activeTab].code}
               </code>
             </pre>
-          </div>)
-        }
+          </div>
+        )}
       </main>
     </div>
   );
