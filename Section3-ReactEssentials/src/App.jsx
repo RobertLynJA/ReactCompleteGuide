@@ -14,6 +14,22 @@ function App() {
     setActiveTab(selectedTab);
   }
 
+  let tabContent = <p>Please select a tab!</p>;
+
+  if (activeTab) {
+    tabContent = (
+          <div id="tab-content">
+            <h3>{EXAMPLES[activeTab].title}</h3>
+            <p>{EXAMPLES[activeTab].description}</p>
+            <pre>
+              <code>
+                {EXAMPLES[activeTab].code}
+              </code>
+            </pre>
+          </div>
+        );
+  }
+
   return (
     <div>
       <Header />
@@ -36,18 +52,7 @@ function App() {
             <TabButton onClick={() => handleClick('state')}>State</TabButton>
           </menu>
         </section>
-        {!activeTab && <p>Please select a tab!</p>}
-        {activeTab && (
-          <div id="tab-content">
-            <h3>{EXAMPLES[activeTab].title}</h3>
-            <p>{EXAMPLES[activeTab].description}</p>
-            <pre>
-              <code>
-                {EXAMPLES[activeTab].code}
-              </code>
-            </pre>
-          </div>
-        )}
+        {tabContent}
       </main>
     </div>
   );
